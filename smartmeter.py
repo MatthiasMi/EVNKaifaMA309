@@ -3,7 +3,7 @@
 # .\smartmeter.py
 """
 @author: Matthias
-@version: 0.0.1
+@version: 0.0.3
 """
 
 from bs4 import BeautifulSoup
@@ -13,30 +13,33 @@ from gurux_dlms.GXDLMSTranslator import GXDLMSTranslator
 from gurux_dlms.GXDLMSTranslatorMessage import GXDLMSTranslatorMessage
 import serial
 
+def hexstr2int(uints, index, width=4):
+    """ `hexstr2int` converts hex string `uints` starting at `index` with `width` to `int`."""
+    return int(str(uints)[index:index+width],16)
+
+
 ### Start of Config ###
-# Input your EVN Key (32 hex characters): "666857B666758CF6662166675F13C666"
-evn_key = "666857B666758CF6662166675F13C666"  # <- intentionally incorrect
 
 # Switches/Toggles (True | False)
 o = True  # Log/Output
+useFILE = True  # write `html`
+
+# Paths Config/Init
+comport = "/dev/ttyUSB0"
+html = "/var/www/html/index.html"
+
+# Input your EVN Key (32 hex characters): "666857B666758CF6662166675F13C666"
+evn_key = "666857B666758CF6662166675F13C666"  # <- intentionally incorrect
 if o: print(f"Hello EVN, I'm {evn_key} - R U alive?")
 
 ### Start of Logic ###
 gxdlmstr = GXDLMSTranslator()
 gxdlmstr.blockCipherKey = GXByteBuffer(evn_key)
 gxdlmstr.comments = True
-comport = "/dev/ttyUSB0" # Config/Init
 
 ser = serial.Serial(port=comport, baudrate=2400, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE)
 
-#Comport Config/Init
-comport = "/dev/ttyUSB0"
-
-tries=0
-def hexstr2int(uints, index, width=4):
-    """ `hexstr2int` converts hex string `uints` starting at `index` with `width` to `int`."""
-    return int(str(uints)[index:index+width],16)
-
+tries=0  # Number of failed attempts
 while 1:
     timestamp = str(datetime.now())
     if o: print(f"Hello EVN - reading data (~3 seconds) on{timestamp}")
@@ -84,7 +87,7 @@ while 1:
     powerD = powerP-powerN
 
     s = ""
-    st = f"power  : {powerD:.2f} [W],\n"; s+=st
+    st = f"power  : {powerD:.0f} [W],\n"; s+=st
     if o: print(st)
     st = f"consume: {energyP:.2f} [KWh],\n"; s+=st
     if o: print(st)
@@ -102,3 +105,11 @@ while 1:
     if o: print(st)
     st = f"data timestamp: {timestamp}"; s+=st
     if o: print(st)
+    
+    if useFILE:
+        if o: print(f"[HTML] Writing data to '{html}'\n")
+        f = open(html, "w")
+        f.write("<html><head><title>Smartmeter</title><meta http-equiv=\"refresh\" content=\"3\"></head></html><pre>\n")
+        f.write(s)
+        f.close()
+        
