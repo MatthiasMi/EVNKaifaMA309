@@ -1,8 +1,8 @@
 CREATE TABLE `tab` (
-  `zeit` datetime NOT NULL,
-  `bezug` float NOT NULL,
-  `einspeisung` float NOT NULL,
-  `leistung` int(11) NOT NULL,
+  `time` datetime NOT NULL,
+  `consume` float NOT NULL,
+  `supply` float NOT NULL,
+  `power` int(11) NOT NULL,
   `U_L1` float NOT NULL,
   `U_L2` float NOT NULL,
   `U_L3` float NOT NULL,
