@@ -26,3 +26,15 @@ moving the default page
 `sudo mv html/index.html html/default.html`
 and making it writable for the script
 `sudo chown pi html`
+
+
+## Database
+To add a database, first install
+`sudo apt-get -y install mariadb-server mysql-server`
+and after testing the connection
+`mysql -hlocalhost -upi -pPASSWORD db`
+provision the database structure
+`cat EVNKaifaMA309/smartmeter.sql | mysql -hlocalhost -upi -pPASSWORD db`
+of the MySQL Initialization file `smartmeter.sql`.
+
+Needless to say, passing these parameters and in particular the password via environment variables is the preferred way.
