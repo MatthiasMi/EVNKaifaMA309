@@ -65,3 +65,28 @@ provision the database structure
 of the MySQL Initialization file `smartmeter.sql`.
 
 Needless to say, passing these parameters and in particular the password via environment variables is the preferred way.
+
+#### 
+### Grafana
+Install Grafana via
+`wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -`
+and
+`echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list`
+then
+`sudo apt-get update && sudo apt-get install -y grafana`
+and enable
+`sudo /bin/systemctl enable grafana-server`
+the start it
+`sudo /bin/systemctl start grafana-server`
+
+As a suggestion, `smartmeter.json` is a Grafana-Dashboard showing the db's row values.
+
+### Autostart
+Re-parent forked process by `init` by setting
+`setsid python3 EVNKaifaMA309/smartmeter.py < /dev/zero &> /dev/null &`
+Autostart via `crontab` is done by executing
+`sudo crontab -e`
+then setting
+`@reboot setsid python3 EVNKaifaMA309/smartmeter.py < /dev/zero &> /dev/null &`
+or
+`@reboot python3 ./EVNKaifaMA309/smartmeter.py &`
