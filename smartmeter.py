@@ -55,6 +55,7 @@ if useMYSQL:
 
 tries = 0  # Number of failed attempts
 while 1:
+  try:
     timestamp = str(datetime.now())
     if o: print(f"Hello EVN - reading data (~3 seconds) on{timestamp}")
 
@@ -136,3 +137,8 @@ while 1:
         mydb.commit()
 
         print("[MYSQL]", mycursor.rowcount, "record(s) inserted.")
+  except:
+    tries+=1
+    print(f"An error ocurred - trying again No. {tries}...")
+    if tries>4:
+        exit(0)
