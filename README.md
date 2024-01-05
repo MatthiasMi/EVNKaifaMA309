@@ -17,6 +17,16 @@ or
 if it has been made executable with
 `chmod +x EVNKaifaMA309/smartmeter.py`
 
+
+## HowTo 
+How to read the SmartMeter (Steps 2-3 until automatized)
+1. Boot Raspi and connect cable to EVN Kaifa MA309
+2. [Win] Use PuTTY to connect to Raspi via ssh
+3. Start script `./EVNKaifaMA309/smartmeter.py`
+4. View HTML in Browser `localhost`
+5. View Grafana in Browser `localhost:3300`
+
+
 ## Access
 As a customer, get started by requesting the password [Kundenschnittstelle](https://www.netz-noe.at/Download-(1)/Smart-Meter/218_9_SmartMeter_Kundenschnittstelle_lektoriert_14.aspx) via `mailto:smartmeter@netz-noe.at` with "Kundennummer" / "Vertragskontonummer", and "Zählernummer".
 
