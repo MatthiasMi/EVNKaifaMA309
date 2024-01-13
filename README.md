@@ -29,6 +29,28 @@ How to read the SmartMeter (Steps 2-3 until automatized)
 4. View HTML in Browser `localhost`
 5. View Grafana in Browser `localhost:3300`
 
+## DE
+
+Für jeden neuen Messwert (ca. alle 3 Sekunden) wird
+
+- eine Zeile in die MySQL-Datenbank geschrieben,
+- eine `html`-Datei (über)schrieben (Webserver liefert dann stets möglichst aktuelle Daten, siehe Zeitstempel)
+  Die wichtigesten Konfigurationen sind
+- `smartmeter.sql` MySQL Initalization
+- `smartmeter.json` Dashboard für Grafana (Anpassungen nach Geschmack)
+
+## Example
+
+Sample view on smartmeter-readout database via Grafana:
+
+!["smartmeter_readout_power"](smartmeter_readout_power.jpeg)
+_Figure 1. Smartmeter Readout: Power (Leistung) [W]_
+!["smartmeter_readout_current"](smartmeter_readout_current.jpeg)
+_Figure 2. Smartmeter Readout: Current (Strom) [A]_
+
+!["smartmeter_readout_voltage"](smartmeter_readout_voltage.jpeg)
+_Figure 3. Smartmeter Readout: Voltage (Spannung) [V]_
+
 ## Access
 
 As a customer, get started by requesting the password [Kundenschnittstelle](<https://www.netz-noe.at/Download-(1)/Smart-Meter/218_9_SmartMeter_Kundenschnittstelle_lektoriert_14.aspx>) via `mailto:smartmeter@netz-noe.at` with "Kundennummer" / "Vertragskontonummer", and "Zählernummer".
@@ -66,8 +88,8 @@ of the MySQL Initialization file `smartmeter.sql`.
 
 Needless to say, passing these parameters and in particular the password via environment variables is the preferred way.
 
-#### 
 ### Grafana
+
 Install Grafana via
 `wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -`
 and
@@ -82,6 +104,7 @@ the start it
 As a suggestion, `smartmeter.json` is a Grafana-Dashboard showing the db's row values.
 
 ### Autostart
+
 Re-parent forked process by `init` by setting
 `setsid python3 EVNKaifaMA309/smartmeter.py < /dev/zero &> /dev/null &`
 Autostart via `crontab` is done by executing
