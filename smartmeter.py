@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# .\smartmeter.py
+# .\smartmeter.py Smartmeter Readout for RaspberryPi
 """
 @author: Matthias
 @version: 0.0.7
